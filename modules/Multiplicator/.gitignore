@@ -1,0 +1,10 @@
+*.o
+*.gch
+*.out
+*.txt
+*.out
+.vscode
+matrix_multiplicator
+biclique_extraction/
+include
+matrix_multiplicator-g
