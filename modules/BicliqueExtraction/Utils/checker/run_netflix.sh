@@ -1,1 +1,0 @@
-./checker.out ../../../datasets/netflix/Netflix_Dataset_Ratingnormalized_compressed.txt ../../../datasets/netflix/Netflix_Dataset_Ratingnormalized_bicliques.txt ../../../datasets/netflix/Netflix_Dataset_Ratingnormalized.txt
