@@ -177,7 +177,7 @@ namespace Boolean
     file << _originalNumNodes << std::endl;
 
     for (uint64_t i = 0; i < matrix_size ; i++) {
-      if (_matrix.at(i) == nullptr) {
+      if (_matrix.at(i) == nullptr or _matrix.at(i)->edgesSize() == 0) {
         continue; 
       }
 
@@ -203,8 +203,9 @@ namespace Boolean
       if (not node) {
         continue;
       }
-      node->serialize(ss);
-      ++size;
+      if (node->serialize(ss)) {
+        ++size;
+      }
     }
 
     os.write(reinterpret_cast<const char*>(&size), sizeof(size));
@@ -277,7 +278,6 @@ namespace Boolean
     }
 
     std::cout << "Writing: " << pathFile << std::endl;
-
 
     std::string raw = oss.str();
 
@@ -356,7 +356,6 @@ namespace Boolean
       file.open(_pathBicliques, std::fstream::app);
       assert(file.is_open());
     }
-    
 
     for (auto& biclique : bicliques) {
       std::vector<NodePtr>& S = biclique->S;
@@ -414,13 +413,13 @@ namespace Boolean
       //file << "SxC - C = " << (C_size * S_size) - C_size << endl; 
       _n_bicliques_iter += 1;
       _biclique_s_size += S_size;
-      _biclique_s_sizeIter = S_size;
+      _biclique_s_sizeIter += S_size;
 
       _biclique_c_size += C_size;
-      _biclique_c_sizeIter = C_size;
+      _biclique_c_sizeIter += C_size;
       
       _biclique_sxc_size += (S_size * C_size);
-      _biclique_sxc_sizeIter = S_size * C_size;
+      _biclique_sxc_sizeIter += S_size * C_size;
 
       if (_keepBicliques) {
         _savedBicliques.push_back(std::move(biclique));
@@ -431,8 +430,6 @@ namespace Boolean
     }
     return; 
   }
-
-
 
   bool Graph::sortC(const uInt& a, const uInt& b)
   {
